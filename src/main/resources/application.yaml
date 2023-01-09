@@ -1,0 +1,29 @@
+server:
+  port: 8066
+spring:
+  application:
+    name: VueServe
+  datasource:
+    password: 123456
+    username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/drugms?serverTimezone=UTC
+  servlet:
+    multipart:
+       max-file-size: 100MB
+       max-request-size: 100MB
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+  cache:
+    redis:
+      time-to-live: 1800000 #ms 30分钟
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+  type-aliases-package: com.drugms.dto

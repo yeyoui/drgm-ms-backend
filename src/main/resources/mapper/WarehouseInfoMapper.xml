@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drugms.mapper.WarehouseInfoMapper">
+    <select id="WarehouseInfoDtoPage" resultType="com.drugms.dto.WarehouseInfoDto">
+        SELECT drug_name,spl_name,stock,sell_num,ret_num,drug_price,goods_price,wi.did,wid
+        FROM warehouse_info wi
+        left join drug_info di on wi.did=di.did
+        left join supply_info spi on di.did=spi.did
+        left join supplier_info si on spi.sid=si.sid
+        <if test="name!=null">
+            <choose>
+                <when test="type==0">
+                    WHERE drug_name=#{name}
+                </when>
+                <when test="type==1">
+                    WHERE spl_name=#{name}
+                </when>
+            </choose>
+        </if>
+        limit #{curPage},#{limit}
+    </select>
+    <select id="WarehouseInfoDtoPageCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM warehouse_info wi
+        left join drug_info di on wi.did=di.did
+        left join supply_info spi on di.did=spi.did
+        left join supplier_info si on spi.sid=si.sid
+        <if test="name!=null">
+            <choose>
+                <when test="type==0">
+                    WHERE drug_name=#{name}
+                </when>
+                <when test="type==1">
+                    WHERE spl_name=#{name}
+                </when>
+            </choose>
+        </if>
+
+    </select>
+
+</mapper>
