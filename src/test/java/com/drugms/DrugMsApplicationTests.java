@@ -1,38 +1,48 @@
 package com.drugms;
 
+import com.drugms.dto.DrugProblemInfoDto;
 import com.drugms.dto.OrderInfoDto;
 import com.drugms.dto.WarehouseInfoDto;
+import com.drugms.entity.DrugProblemInfo;
+import com.drugms.mapper.DrugProblemInfoMapper;
 import com.drugms.mapper.WarehouseInfoMapper;
 import com.drugms.service.OrderInfoService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
 
 @SpringBootTest
+@Slf4j
 class DrugMsApplicationTests {
     @Autowired
-    WarehouseInfoMapper warehouseInfoMapper;
+    DrugProblemInfoMapper drugProblemInfoMapper;
     @Autowired
     OrderInfoService orderInfoService;
-    @Autowired
-    RedisTemplate<String,Object> redisTemplate;
+//    @Autowired
+//    RedisTemplate<String,Object> redisTemplate;
 
     @Test
     void contextLoads() {
     }
     @Test
-    void testPage(){
-        List<OrderInfoDto> dtos = orderInfoService.getOrderDtoPage(-1, 0, 10, "");
-        dtos.forEach(System.out::println);
-        System.out.println(">>>>>>"+orderInfoService.getOrderDtoPageCount(-1, 0, 10, ""));
+    void testPage() {
+        List<DrugProblemInfoDto> dtos = drugProblemInfoMapper.getDrugProblemInfoDtoPage(
+                -1, 0, 10, null,null,null);
+//        dtos.forEach(System.out::println);
+//        drugProblemInfoMapper.getDrugProblemInfoDtoPageCount(
+//                7, 0, 10, "%保和%",1,true);
     }
     @Test
-    void testRedis(){
-        redisTemplate.opsForValue().set("lhy123","yeyoui");
-        System.out.println(redisTemplate.opsForValue().get("lhy123"));
+    void TestSplit(){
+        String name=" , , ,";
+        String[] split = name.split(",");
+        System.out.println(split.length);
+        for (String s : split) {
+            System.out.println("*"+s+"*");
+        }
     }
 
 }

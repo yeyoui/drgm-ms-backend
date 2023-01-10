@@ -35,6 +35,11 @@ public class UserRetInfo implements Serializable {
     private LocalDateTime retTime;
 
     /**
+     * 退货类型  0:过期 1:包装破损 2:药品变质 3:药品发错 4:7天无理由
+     */
+    private Integer problemType;
+
+    /**
      * 退货原因
      */
     private String reason;

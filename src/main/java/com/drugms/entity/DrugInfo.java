@@ -49,5 +49,4 @@ public class DrugInfo implements Serializable {
      */
     private BigDecimal drugPrice;
 
-
 }

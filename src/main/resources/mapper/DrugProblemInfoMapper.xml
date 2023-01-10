@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drugms.mapper.DrugProblemInfoMapper">
+
+    <select id="getDrugProblemInfoDtoPage" resultType="com.drugms.dto.DrugProblemInfoDto">
+        SELECT dpid,dpi.wid,drug_name,dp_num,create_time,problem_type,had_Handle FROM drug_problem_info dpi
+        LEFT JOIN warehouse_info wi ON dpi.wid=wi.wid
+        LEFT JOIN drug_info di ON wi.did=di.did
+        <where>
+            <if test="type%2 > 0">
+                drug_name like #{drugName}
+            </if>
+            <if test="type/2%2 >0">
+                AND problem_type = #{problemType}
+            </if>
+            <if test="type/4%2 >0">
+                AND had_Handle=#{hadHandle}
+            </if>
+        </where>
+        LIMIT #{curPage},#{limit}
+    </select>
+    <select id="getDrugProblemInfoDtoPageCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM drug_problem_info dpi
+        LEFT JOIN warehouse_info wi ON dpi.wid=wi.wid
+        LEFT JOIN drug_info di ON wi.did=di.did
+        <where>
+            <if test="type%2 > 0">
+                drug_name like #{drugName}
+            </if>
+            <if test="type/2%2 >0">
+                AND problem_type = #{problemType}
+            </if>
+            <if test="type/4%2 >0">
+                AND had_Handle=#{hadHandle}
+            </if>
+        </where>
+    </select>
+</mapper>
