@@ -25,7 +25,7 @@ public class DrugProblemInfo implements Serializable {
     /**
      * 药品问题记录ID
      */
-    @TableId(value = "wtid", type = IdType.AUTO)
+    @TableId(value = "dpid", type = IdType.AUTO)
     private Integer dpid;
 
     /**
@@ -47,6 +47,11 @@ public class DrugProblemInfo implements Serializable {
      * 创建时间
      */
     private LocalDateTime createTime;
+
+    /**
+     * 修改时间
+     */
+    private LocalDateTime updateTime;
 
     /**
      * 问题原因类型（和用户退货表同名字段共用） 0:过期 1:包装破损 2:药品变质 3:药品发错 4:7天无理由

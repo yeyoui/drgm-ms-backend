@@ -18,4 +18,5 @@ public interface WarehouseInfoService extends IService<WarehouseInfo> {
     List<WarehouseInfoDto> getWhDtoPage(int type,int curPage,int limit,String name);
     Integer getWhDtoPageCount(int type,int curPage,int limit,String name);
 
+
 }

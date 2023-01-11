@@ -1,14 +1,12 @@
 package com.drugms.controller;
 
-
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.drugms.common.R;
 import com.drugms.dto.WarehouseInfoDto;
-import com.drugms.entity.SupplierInfo;
+import com.drugms.entity.DrugProblemInfo;
 import com.drugms.entity.WarehouseInfo;
+import com.drugms.service.DrugProblemInfoService;
 import com.drugms.service.WarehouseInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +28,8 @@ import java.util.List;
 public class WarehouseInfoController {
     @Autowired
     private WarehouseInfoService warehouseInfoService;
+    @Autowired
+    private DrugProblemInfoService drugProblemInfoService;
 
     /**
      * 分页查询仓库信息
@@ -78,4 +78,12 @@ public class WarehouseInfoController {
         return R.success(warehouseInfoService.getById(did).getStock());
     }
 
+    /**
+     *
+     */
+    @PostMapping("/submitDrugProblem")
+    public R<String> submitDrugProblem(@RequestBody  DrugProblemInfo drugProblemInfo){
+        drugProblemInfoService.submitDrugProblem(drugProblemInfo);
+        return R.success("提交成功");
+    }
 }

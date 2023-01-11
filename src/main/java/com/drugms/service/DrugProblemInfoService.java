@@ -19,4 +19,5 @@ import java.util.List;
 public interface DrugProblemInfoService extends IService<DrugProblemInfo> {
     List<DrugProblemInfoDto> getDrugProblemInfoDtoPage(int type, int curPage, int limit, String name);
     Integer getDrugProblemInfoDtoPageCount(int type, int curPage, int limit, String name);
+    void submitDrugProblem(DrugProblemInfo drugProblemInfo);
 }

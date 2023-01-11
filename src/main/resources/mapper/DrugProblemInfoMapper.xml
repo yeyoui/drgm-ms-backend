@@ -3,7 +3,7 @@
 <mapper namespace="com.drugms.mapper.DrugProblemInfoMapper">
 
     <select id="getDrugProblemInfoDtoPage" resultType="com.drugms.dto.DrugProblemInfoDto">
-        SELECT dpid,dpi.wid,drug_name,dp_num,create_time,problem_type,had_Handle FROM drug_problem_info dpi
+        SELECT dpid,dpi.wid,drug_name,dp_num,create_time,update_time,problem_type,had_Handle FROM drug_problem_info dpi
         LEFT JOIN warehouse_info wi ON dpi.wid=wi.wid
         LEFT JOIN drug_info di ON wi.did=di.did
         <where>

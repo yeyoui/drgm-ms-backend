@@ -66,7 +66,7 @@ public class DrugProblemInfoController {
     public R<Page<DrugProblemInfoDto>> page(@RequestParam(required = false,defaultValue = "-1") Integer type, Integer curPage, Integer limit, String name){
         Page<DrugProblemInfoDto> dtoPage = new Page<>();
         //交给Service处理
-//        dtoPage.setTotal(problemInfoService.getDrugProblemInfoDtoPageCount(type,curPage,limit,name));
+        dtoPage.setTotal(problemInfoService.getDrugProblemInfoDtoPageCount(type,curPage,limit,name));
         dtoPage.setRecords(problemInfoService.getDrugProblemInfoDtoPage(type,curPage,limit,name));
 
         return R.success(dtoPage);
