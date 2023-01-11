@@ -1,6 +1,7 @@
 package com.drugms.mapper;
 
 import com.drugms.dto.WarehouseInfoDto;
+import com.drugms.entity.DrugInfo;
 import com.drugms.entity.WarehouseInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -23,4 +24,6 @@ public interface WarehouseInfoMapper extends BaseMapper<WarehouseInfo> {
      */
     Integer WarehouseInfoDtoPageCount(int type,int curPage,int limit,String name);
     List<WarehouseInfoDto>  WarehouseInfoDtoPage(int type,int curPage,int limit,String name);
+
+    List<DrugInfo> getSaleDrugList();
 }

@@ -97,4 +97,12 @@ public class DrugProblemInfoServiceImpl extends ServiceImpl<DrugProblemInfoMappe
 
         this.save(drugProblemInfo);
     }
+
+    @Override
+    public void updateInfoAfterHandler(Integer dpid) {
+        DrugProblemInfo problemInfo = this.getById(dpid);
+        problemInfo.setUpdateTime(LocalDateTime.now());
+        problemInfo.setHadHandle(true);
+        this.updateById(problemInfo);
+    }
 }

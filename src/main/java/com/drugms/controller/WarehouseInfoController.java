@@ -1,17 +1,21 @@
 package com.drugms.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.drugms.common.R;
 import com.drugms.dto.WarehouseInfoDto;
+import com.drugms.entity.DrugInfo;
 import com.drugms.entity.DrugProblemInfo;
 import com.drugms.entity.WarehouseInfo;
 import com.drugms.service.DrugProblemInfoService;
 import com.drugms.service.WarehouseInfoService;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -73,17 +77,43 @@ public class WarehouseInfoController {
     /**
      * 获取药品的库存
      */
-    @GetMapping("/getStockByDrugId")
-    public R<Integer> getStockByDrugId(Integer did){
-        return R.success(warehouseInfoService.getById(did).getStock());
+    @GetMapping("/getStockAndStateByDrugId")
+    public R<WIStokeAndState> getStockByDrugId(Integer did){
+        LambdaQueryWrapper<WarehouseInfo> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(WarehouseInfo::getDid,did);
+        WarehouseInfo warehouseInfo = warehouseInfoService.getOne(queryWrapper);
+        return R.success(WIStokeAndState.getObject(warehouseInfo.getIsSale()?"在售":"停售",warehouseInfo.getStock()));
     }
 
     /**
-     *
+     * 提交问题药品
      */
     @PostMapping("/submitDrugProblem")
     public R<String> submitDrugProblem(@RequestBody  DrugProblemInfo drugProblemInfo){
         drugProblemInfoService.submitDrugProblem(drugProblemInfo);
         return R.success("提交成功");
+    }
+
+    /**
+     * 获取在售药品列表
+     */
+    @GetMapping("/getSaleDrugList")
+    public R<List<DrugInfo>> getSaleDrugList(){
+        List<DrugInfo> drugList = warehouseInfoService.getSaleDrugList();
+        return R.success(drugList);
+    }
+
+    @Data
+    private static class WIStokeAndState implements Serializable {
+        private String isSale;
+        private Integer stoke;
+
+
+        private static WIStokeAndState getObject(String state,Integer stoke){
+            WIStokeAndState wiStokeAndState = new WIStokeAndState();
+            wiStokeAndState.isSale=state;
+            wiStokeAndState.stoke=stoke;
+            return wiStokeAndState;
+        }
     }
 }

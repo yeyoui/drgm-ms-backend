@@ -1,6 +1,7 @@
 package com.drugms.service.impl;
 
 import com.drugms.dto.WarehouseInfoDto;
+import com.drugms.entity.DrugInfo;
 import com.drugms.entity.DrugProblemInfo;
 import com.drugms.entity.WarehouseInfo;
 import com.drugms.mapper.WarehouseInfoMapper;
@@ -33,5 +34,11 @@ public class WarehouseInfoServiceImpl extends ServiceImpl<WarehouseInfoMapper, W
     public Integer getWhDtoPageCount(int type, int curPage, int limit, String name) {
         return warehouseInfoMapper.WarehouseInfoDtoPageCount(type,curPage,limit,name);
     }
+
+    @Override
+    public List<DrugInfo> getSaleDrugList() {
+        return warehouseInfoMapper.getSaleDrugList();
+    }
+
 
 }

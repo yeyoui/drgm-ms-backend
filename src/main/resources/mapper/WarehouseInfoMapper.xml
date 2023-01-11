@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.drugms.mapper.WarehouseInfoMapper">
     <select id="WarehouseInfoDtoPage" resultType="com.drugms.dto.WarehouseInfoDto">
-        SELECT drug_name,spl_name,stock,sell_num,ret_num,drug_price,goods_price,wi.did,wid
+        SELECT drug_name,spl_name,stock,sell_num,ret_num,drug_price,goods_price,wi.did,wid,is_sale
         FROM warehouse_info wi
         left join drug_info di on wi.did=di.did
         left join supply_info spi on di.did=spi.did
@@ -36,6 +36,9 @@
             </choose>
         </if>
 
+    </select>
+    <select id="getSaleDrugList" resultType="com.drugms.entity.DrugInfo">
+        SELECT di.did,drug_name FROM warehouse_info left join drug_info di on warehouse_info.did = di.did
     </select>
 
 </mapper>

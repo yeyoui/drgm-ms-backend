@@ -35,7 +35,7 @@ public class WhPrchsInfoServiceImpl extends ServiceImpl<WhPrchsInfoMapper, WhPrc
         WarehouseInfo WItem = warehouseInfoService.getOne(WIwq);
         if(WItem==null){
             //仓库内无此药品
-            WarehouseInfo warehouseInfo = new WarehouseInfo(null,whPrchsInfo.getDid(),whPrchsInfo.getSplyNum(),0,0,new BigDecimal(99999));
+            WarehouseInfo warehouseInfo = new WarehouseInfo(null,whPrchsInfo.getDid(),whPrchsInfo.getSplyNum(),0,0,new BigDecimal(99999),false);
             warehouseInfoService.save(warehouseInfo);
             whPrchsInfo.setWid(warehouseInfo.getWid());//获取新增的仓库ID
         }else {

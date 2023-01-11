@@ -1,6 +1,7 @@
 package com.drugms.service;
 
 import com.drugms.dto.WarehouseInfoDto;
+import com.drugms.entity.DrugInfo;
 import com.drugms.entity.WarehouseInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -18,5 +19,5 @@ public interface WarehouseInfoService extends IService<WarehouseInfo> {
     List<WarehouseInfoDto> getWhDtoPage(int type,int curPage,int limit,String name);
     Integer getWhDtoPageCount(int type,int curPage,int limit,String name);
 
-
+    List<DrugInfo> getSaleDrugList();
 }

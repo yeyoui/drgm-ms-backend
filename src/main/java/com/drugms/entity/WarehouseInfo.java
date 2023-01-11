@@ -59,5 +59,10 @@ public class WarehouseInfo implements Serializable {
      */
     private BigDecimal goodsPrice;
 
+    /**
+     * 是否在售
+     */
+    private Boolean isSale;
+
 
 }
