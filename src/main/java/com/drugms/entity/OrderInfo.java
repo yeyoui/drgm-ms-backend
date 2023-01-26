@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import lombok.experimental.Accessors;
 
 /**
@@ -38,7 +37,7 @@ public class OrderInfo implements Serializable {
     /**
      * 订单状态(0：正常状态 1：未处理的退货 2： 完成回厂退货)
      */
-    private Integer state;
+    private Integer status;
 
     /**
      * 购买数量

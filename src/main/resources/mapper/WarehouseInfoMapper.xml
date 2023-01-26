@@ -10,10 +10,10 @@
         <if test="name!=null">
             <choose>
                 <when test="type==0">
-                    WHERE drug_name=#{name}
+                    WHERE drug_name like #{name}
                 </when>
                 <when test="type==1">
-                    WHERE spl_name=#{name}
+                    WHERE spl_name like #{name}
                 </when>
             </choose>
         </if>

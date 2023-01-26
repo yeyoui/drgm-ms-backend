@@ -24,4 +24,10 @@ public interface OrderInfoService extends IService<OrderInfo> {
     List<OrderInfoDto> getOrderDtoPage(int type, int curPage, int limit, String name);
     Integer getOrderDtoPageCount(int type,int curPage,int limit,String name);
 
+    /**
+     *
+     * @param oid 修改订单状态  0：正常状态 1：未处理的退货 2： 完成回厂退货
+     */
+    void updOrderStatus(Integer oid,Integer status);
+
 }

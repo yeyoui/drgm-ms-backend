@@ -41,12 +41,14 @@ public class WarehouseInfoController {
      */
     @GetMapping("/page")
     public R<Page<WarehouseInfoDto>> page(@RequestParam(required = false,defaultValue = "-1") Integer type, Integer curPage, Integer limit, String sname){
-        if(!StringUtils.isNotEmpty(sname)) sname=null;//输入的sname为空字符
+        if(!StringUtils.isNotEmpty(sname)){
+            type=-1;//输入为空，不进行条件过滤
+        }
         Page<WarehouseInfoDto> dtoPage = new Page<>();
         //获取总页数
-        dtoPage.setTotal(warehouseInfoService.getWhDtoPageCount(type,(curPage-1)*limit,limit,sname));
+        dtoPage.setTotal(warehouseInfoService.getWhDtoPageCount(type,curPage,limit,sname));
         //交给Service层处理查询数据
-        dtoPage.setRecords(warehouseInfoService.getWhDtoPage(type, (curPage-1)*limit, limit, sname));
+        dtoPage.setRecords(warehouseInfoService.getWhDtoPage(type, curPage, limit, sname));
         return R.success(dtoPage);
     }
 

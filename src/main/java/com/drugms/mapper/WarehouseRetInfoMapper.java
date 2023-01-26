@@ -1,8 +1,11 @@
 package com.drugms.mapper;
 
+import com.drugms.dto.WarehouseRetInfoDto;
 import com.drugms.entity.WarehouseRetInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,5 +17,6 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface WarehouseRetInfoMapper extends BaseMapper<WarehouseRetInfo> {
-
+    List<WarehouseRetInfoDto> warehouseRetInfoDtoPage(int type,int curPage,int limit,String drugName,Integer problemType);
+    Integer warehouseRetInfoDtoPageCount(int type,int curPage,int limit,String drugName,Integer problemType);
 }

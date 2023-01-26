@@ -17,6 +17,7 @@
                 AND had_Handle=#{hadHandle}
             </if>
         </where>
+        ORDER BY had_Handle
         LIMIT #{curPage},#{limit}
     </select>
     <select id="getDrugProblemInfoDtoPageCount" resultType="java.lang.Integer">

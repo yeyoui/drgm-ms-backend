@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-
 /**
  * <p>
  * 药品问题信息 服务实现类
@@ -55,7 +54,9 @@ public class DrugProblemInfoServiceImpl extends ServiceImpl<DrugProblemInfoMappe
         Integer problemType=null;
         Integer handleType=null;
         String[] strings = name.split(",");
-        if(!" ".equals(strings[0])) drugName=strings[0];
+        if(!" ".equals(strings[0])){
+            drugName="%"+strings[0]+"%";
+        }
         if(!" ".equals(strings[1])) problemType=Integer.parseInt(strings[1]);
         if(!" ".equals(strings[2])) handleType=Integer.parseInt(strings[2]);
 
@@ -81,9 +82,9 @@ public class DrugProblemInfoServiceImpl extends ServiceImpl<DrugProblemInfoMappe
         UpdateWrapper<WarehouseInfo> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("wid",warehouseInfo.getWid()).set("stock",remain);
         warehouseInfoService.update(updateWrapper);
-        //判断DrugProblemInfo中是否有相同的仓库记录ID和类型
+        //判断DrugProblemInfo中是否有相同的仓库记录ID和类型并且未处理
         LambdaQueryWrapper<DrugProblemInfo> dpWQ = new LambdaQueryWrapper<>();
-        dpWQ.eq(DrugProblemInfo::getWid,warehouseInfo.getWid()).eq(DrugProblemInfo::getProblemType,drugProblemInfo.getProblemType());
+        dpWQ.eq(DrugProblemInfo::getWid,warehouseInfo.getWid()).eq(DrugProblemInfo::getProblemType,drugProblemInfo.getProblemType()).eq(DrugProblemInfo::getHadHandle,false);
         DrugProblemInfo preProblemInfo = this.getOne(dpWQ);
         if(preProblemInfo!=null){
             //药品问题表中有了相同药品

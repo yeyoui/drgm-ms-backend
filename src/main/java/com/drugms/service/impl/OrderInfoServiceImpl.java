@@ -1,5 +1,6 @@
 package com.drugms.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.drugms.dto.OrderInfoDto;
 import com.drugms.entity.OrderInfo;
 import com.drugms.mapper.OrderInfoMapper;
@@ -25,11 +26,20 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
     @Override
     public List<OrderInfoDto> getOrderDtoPage(int type, int curPage, int limit, String name) {
-        return orderInfoMapper.getOrderDtoPage(type,curPage,limit,name);
+        if(type==0) return orderInfoMapper.getOrderDtoPage(type,curPage,limit,"%"+name+"%");
+        else  return orderInfoMapper.getOrderDtoPage(type,curPage,limit,name);
     }
 
     @Override
     public Integer getOrderDtoPageCount(int type, int curPage, int limit, String name) {
-        return orderInfoMapper.getOrderDtoPageCount(type,curPage,limit,name);
+        if(type==0) return orderInfoMapper.getOrderDtoPageCount(type,curPage,limit,"%"+name+"%");
+        else  return orderInfoMapper.getOrderDtoPageCount(type,curPage,limit,name);
+    }
+
+    @Override
+    public void updOrderStatus(Integer oid,Integer status) {
+        UpdateWrapper<OrderInfo> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("oid",oid).set("status",status);
+        this.update(updateWrapper);
     }
 }

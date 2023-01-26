@@ -8,21 +8,15 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.drugms.common.R;
 import com.drugms.dto.OrderInfoDto;
-import com.drugms.dto.WarehouseInfoDto;
-import com.drugms.entity.DrugInfo;
 import com.drugms.entity.OrderInfo;
 import com.drugms.entity.WarehouseInfo;
-import com.drugms.service.DrugInfoService;
 import com.drugms.service.OrderInfoService;
 import com.drugms.service.WarehouseInfoService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -60,7 +54,7 @@ public class OrderInfoController {
     @PostMapping("/addDrugThroughAdmin")
     public R<String> addDrugThroughAdmin(@RequestBody OrderInfoDto orderInfoDto){
         orderInfoDto.setCreateTime(LocalDateTime.now());
-        orderInfoDto.setState(0);//默认正常状态
+        orderInfoDto.setStatus(0);//默认正常状态
         //设置仓库信息
         LambdaQueryWrapper<WarehouseInfo> wIQW = new LambdaQueryWrapper<>();
         wIQW.eq(WarehouseInfo::getDid,orderInfoDto.getDid());

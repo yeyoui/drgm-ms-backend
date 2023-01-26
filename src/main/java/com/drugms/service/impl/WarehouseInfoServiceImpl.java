@@ -27,12 +27,12 @@ public class WarehouseInfoServiceImpl extends ServiceImpl<WarehouseInfoMapper, W
 
     @Override
     public List<WarehouseInfoDto> getWhDtoPage(int type, int curPage, int limit, String name) {
-        return warehouseInfoMapper.WarehouseInfoDtoPage(type,curPage,limit,name);
+        return warehouseInfoMapper.WarehouseInfoDtoPage(type,(curPage-1)*limit,limit,"%"+name+"%");
     }
 
     @Override
     public Integer getWhDtoPageCount(int type, int curPage, int limit, String name) {
-        return warehouseInfoMapper.WarehouseInfoDtoPageCount(type,curPage,limit,name);
+        return warehouseInfoMapper.WarehouseInfoDtoPageCount(type,(curPage-1)*limit,limit,"%"+name+"%");
     }
 
     @Override

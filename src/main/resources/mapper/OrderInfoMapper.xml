@@ -3,13 +3,13 @@
 <mapper namespace="com.drugms.mapper.OrderInfoMapper">
 
     <select id="getOrderDtoPage" resultType="com.drugms.dto.OrderInfoDto">
-        SELECT oid,wi.wid,drug_name,state,prchs_num,prchs_user,drug_price,create_time,address FROM order_info oi
+        SELECT oid,wi.wid,drug_name,status,prchs_num,prchs_user,drug_price,create_time,address FROM order_info oi
         left join warehouse_info wi on oi.wid=wi.wid
         left join drug_info di on wi.did=di.did
         <if test="name!=null">
             <choose>
                 <when test="type==0">
-                    WHERE drug_name=#{name}
+                    WHERE drug_name like #{name}
                 </when>
                 <when test="type==1">
                     WHERE prchs_user=#{name}
@@ -27,10 +27,10 @@
         <if test="name!=null">
             <choose>
                 <when test="type==0">
-                    WHERE prchs_user=#{name}
+                    WHERE drug_name like #{name}
                 </when>
                 <when test="type==1">
-                    WHERE drug_name=#{name}
+                    WHERE prchs_user=#{name}
                 </when>
             </choose>
         </if>

@@ -5,21 +5,17 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.drugms.common.CustomException;
 import com.drugms.common.R;
 import com.drugms.dto.DrugProblemInfoDto;
 import com.drugms.dto.DrugProblemType;
 import com.drugms.dto.OrderInfoDto;
-import com.drugms.entity.DrugProblemInfo;
-import com.drugms.entity.SupplierInfo;
-import com.drugms.entity.SupplyInfo;
-import com.drugms.entity.WarehouseInfo;
-import com.drugms.service.DrugProblemInfoService;
-import com.drugms.service.SupplierInfoService;
-import com.drugms.service.SupplyInfoService;
-import com.drugms.service.WarehouseInfoService;
+import com.drugms.entity.*;
+import com.drugms.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +35,8 @@ public class DrugProblemInfoController {
     private DrugProblemInfoService drugProblemInfoService;
     @Autowired
     private WarehouseInfoService warehouseInfoService;
+    @Autowired
+    private WarehouseRetInfoService warehouseRetInfoService;
 
 
     /**
@@ -81,6 +79,8 @@ public class DrugProblemInfoController {
     @PostMapping("/retToWarehouse")
     public R<String> retToWarehouse(@RequestParam Integer dpid){
         DrugProblemInfo drugProblemInfo = drugProblemInfoService.getById(dpid);
+        //已经处理
+        if(drugProblemInfo.getHadHandle()) throw new CustomException("改药品已经处理，请勿重复提交");
         WarehouseInfo warehouseInfo = warehouseInfoService.getById(drugProblemInfo.getWid());
         //更新仓库信息
         UpdateWrapper<WarehouseInfo> updateWrapper = new UpdateWrapper<>();
@@ -91,6 +91,26 @@ public class DrugProblemInfoController {
         return R.success("回仓成功");
     }
 
+    /**
+     * 问题药品退回厂家
+     */
+    @PostMapping("/retToFactory")
+    public R<String> retToFactory(@RequestParam Integer dpid){
+        DrugProblemInfo drugProblemInfo = drugProblemInfoService.getById(dpid);
+
+        //已经处理
+        if(drugProblemInfo.getHadHandle()) throw new CustomException("改药品已经处理，请勿重复提交");
+        WarehouseRetInfo warehouseRetInfo = new WarehouseRetInfo();
+        warehouseRetInfo.setRetTime(LocalDateTime.now());
+        warehouseRetInfo.setProblemType(drugProblemInfo.getProblemType());
+        warehouseRetInfo.setWid(drugProblemInfo.getWid());
+        warehouseRetInfo.setWretNum(drugProblemInfo.getDpNum());
+        //新增回厂信息
+        warehouseRetInfoService.save(warehouseRetInfo);
+        //更新药品问题信息
+        drugProblemInfoService.updateInfoAfterHandler(dpid);
+        return R.success("回仓成功");//retToFactory
+    }
 
 
 }

@@ -2,4 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.drugms.mapper.UserRetInfoMapper">
 
+    <select id="getUserRetInfoDtoPage" resultType="com.drugms.dto.UserRetInfoDto">
+        SELECT uri.oid ,drug_name, problem_type,ret_time,reason  FROM user_ret_info uri
+        LEFT JOIN order_info oi on uri.oid=oi.oid
+        LEFT JOIN warehouse_info wi on oi.wid=wi.wid
+        LEFT JOIN drug_info di on wi.did=di.did
+        <where>
+            <if test="type%2 > 0">
+            <choose>
+                <when test="searchType==0">
+                    drug_name like #{name}
+                </when>
+                <when test="searchType==1">
+                    uri.oid = #{name}
+                </when>
+            </choose>
+
+            </if>
+            <if test="type/2%2 >0">
+                AND problem_type = #{problemType}
+            </if>
+        </where>
+        LIMIT #{curPage},#{limit}
+    </select>
+    <select id="getUserRetInfoDtoPageCount" resultType="java.lang.Integer">
+        SELECT COUNT(*)  FROM user_ret_info uri
+        LEFT JOIN order_info oi on uri.oid=oi.oid
+        LEFT JOIN warehouse_info wi on oi.wid=wi.wid
+        LEFT JOIN drug_info di on wi.did=di.did
+        <where>
+            <if test="type%2 > 0">
+                <choose>
+                    <when test="searchType==0">
+                        drug_name like #{name}
+                    </when>
+                    <when test="searchType==1">
+                        uri.oid = #{name}
+                    </when>
+                </choose>
+
+            </if>
+            <if test="type/2%2 >0">
+                AND problem_type = #{problemType}
+            </if>
+        </where>
+    </select>
+
 </mapper>
