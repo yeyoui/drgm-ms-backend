@@ -29,6 +29,8 @@ public class WhPrchsInfoServiceImpl extends ServiceImpl<WhPrchsInfoMapper, WhPrc
 
     @Override
     public Boolean addWhPrchs(WhPrchsInfo whPrchsInfo) {
+        //设置药品未过期状态
+        whPrchsInfo.setHadExpired(false);
         //在仓库中查询是否存在该药品
         LambdaQueryWrapper<WarehouseInfo> WIwq = new LambdaQueryWrapper<>();
         WIwq.eq(WarehouseInfo::getDid,whPrchsInfo.getDid());

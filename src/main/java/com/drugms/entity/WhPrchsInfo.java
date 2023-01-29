@@ -50,5 +50,9 @@ public class WhPrchsInfo implements Serializable {
      */
     private LocalDateTime proTime;
 
+    /**
+     * 是否过期
+     */
+    private Boolean hadExpired;
 
 }

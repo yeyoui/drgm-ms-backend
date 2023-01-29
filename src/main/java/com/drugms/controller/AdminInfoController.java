@@ -1,6 +1,11 @@
 package com.drugms.controller;
 
 
+import com.drugms.common.R;
+import com.drugms.service.WarehouseInfoService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -14,7 +19,16 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2023-01-05
  */
 @RestController
-@RequestMapping("/admin-info")
+@RequestMapping("/admin")
+@Slf4j
 public class AdminInfoController {
+    @Autowired
+    private WarehouseInfoService warehouseInfoService;
 
+
+    @GetMapping("/checkAndUpdExpiredDrug")
+    public R<String> checkAndUpdExpiredDrug(){
+
+        return null;
+    }
 }

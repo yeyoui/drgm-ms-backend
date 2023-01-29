@@ -20,4 +20,5 @@ public interface WarehouseInfoService extends IService<WarehouseInfo> {
     Integer getWhDtoPageCount(int type,int curPage,int limit,String name);
 
     List<DrugInfo> getSaleDrugList();
+
 }
