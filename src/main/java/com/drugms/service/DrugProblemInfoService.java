@@ -19,7 +19,11 @@ import java.util.List;
 public interface DrugProblemInfoService extends IService<DrugProblemInfo> {
     List<DrugProblemInfoDto> getDrugProblemInfoDtoPage(int type, int curPage, int limit, String name);
     Integer getDrugProblemInfoDtoPageCount(int type, int curPage, int limit, String name);
-    void submitDrugProblem(DrugProblemInfo drugProblemInfo);
+    /**
+     *提交问题药品信息
+     * @param drugProblemInfo 需要提供Wid、ProblemType、PrchsNum
+     */
+    void submitDrugProblem(DrugProblemInfo drugProblemInfo,Boolean inSale);
 
     void updateInfoAfterHandler(Integer dpid);
 }

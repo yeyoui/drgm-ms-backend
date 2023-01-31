@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2023-01-05
  */
 public interface SupplyInfoService extends IService<SupplyInfo> {
-    void checkAndUpdExpiredDrug();
+
 }

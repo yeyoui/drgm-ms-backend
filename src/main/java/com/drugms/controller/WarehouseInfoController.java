@@ -92,7 +92,7 @@ public class WarehouseInfoController {
      */
     @PostMapping("/submitDrugProblem")
     public R<String> submitDrugProblem(@RequestBody  DrugProblemInfo drugProblemInfo){
-        drugProblemInfoService.submitDrugProblem(drugProblemInfo);
+        drugProblemInfoService.submitDrugProblem(drugProblemInfo,false);
         return R.success("提交成功");
     }
 

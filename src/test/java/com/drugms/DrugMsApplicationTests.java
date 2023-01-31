@@ -1,11 +1,10 @@
 package com.drugms;
 
 import com.drugms.common.MSGlobalObject;
-import com.drugms.dto.UserRetInfoDto;
-import com.drugms.dto.WarehouseRetInfoDto;
-import com.drugms.mapper.DrugProblemInfoMapper;
-import com.drugms.mapper.UserRetInfoMapper;
+import com.drugms.dto.WhPrchsInfoDto;
+import com.drugms.mapper.WhPrchsInfoMapper;
 import com.drugms.service.WarehouseRetInfoService;
+import com.drugms.service.WhPrchsInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +19,21 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 class DrugMsApplicationTests {
     @Autowired
-    UserRetInfoMapper userRetInfoMapper;
-    @Autowired
     WarehouseRetInfoService warehouseRetInfoService;
     @Autowired
     MSGlobalObject msGlobalObject;
+    @Autowired
+    WhPrchsInfoMapper whPrchsInfoMapper;
+
+    @Autowired
+    WhPrchsInfoService whPrchsInfoService;
+
     @Test
     void contextLoads() {
     }
     @Test
     void testPage() {
-        List<UserRetInfoDto> dtos = userRetInfoMapper.getUserRetInfoDtoPage(
-                0, 0, 10, null,null,null);
+        List<WhPrchsInfoDto> dtos = whPrchsInfoMapper.getWhPrchsPage(0, 0, 10, "%保%");
         dtos.forEach(System.out::println);
 //        dtos.forEach(System.out::println);
 //        drugProblemInfoMapper.getDrugProblemInfoDtoPageCount(
@@ -49,4 +51,8 @@ class DrugMsApplicationTests {
         System.out.println(between.toHours());
     }
 
+    @Test
+    void testCheck(){
+        whPrchsInfoService.checkAndUpdExpiredDrug();
+    }
 }

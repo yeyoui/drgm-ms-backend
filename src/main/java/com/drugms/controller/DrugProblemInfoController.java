@@ -37,6 +37,8 @@ public class DrugProblemInfoController {
     private WarehouseInfoService warehouseInfoService;
     @Autowired
     private WarehouseRetInfoService warehouseRetInfoService;
+    @Autowired
+    private WhPrchsInfoService whPrchsInfoService;
 
 
     /**
@@ -81,13 +83,17 @@ public class DrugProblemInfoController {
         DrugProblemInfo drugProblemInfo = drugProblemInfoService.getById(dpid);
         //已经处理
         if(drugProblemInfo.getHadHandle()) throw new CustomException("改药品已经处理，请勿重复提交");
-        WarehouseInfo warehouseInfo = warehouseInfoService.getById(drugProblemInfo.getWid());
+        //更新药品问题信息
+        drugProblemInfoService.updateInfoAfterHandler(dpid);
+        //更新当前药品的剩余量
+        whPrchsInfoService.addRemainByWID(drugProblemInfo.getWid(),drugProblemInfo.getDpNum());
         //更新仓库信息
+        WarehouseInfo warehouseInfo = warehouseInfoService.getById(drugProblemInfo.getWid());
         UpdateWrapper<WarehouseInfo> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("wid",drugProblemInfo.getWid()).set("stock",warehouseInfo.getStock()+drugProblemInfo.getDpNum());
         warehouseInfoService.update(updateWrapper);
-        //更新药品问题信息
-        drugProblemInfoService.updateInfoAfterHandler(dpid);
+
+
         return R.success("回仓成功");
     }
 

@@ -6,9 +6,12 @@ import com.drugms.common.CustomException;
 import com.drugms.common.R;
 import com.drugms.dto.UserRetInfoDto;
 import com.drugms.entity.DrugProblemInfo;
+import com.drugms.entity.OrderInfo;
 import com.drugms.entity.UserRetInfo;
 import com.drugms.service.OrderInfoService;
 import com.drugms.service.UserRetInfoService;
+import com.drugms.service.WarehouseInfoService;
+import com.drugms.service.WhPrchsInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +34,10 @@ public class UserRetInfoController {
     private UserRetInfoService userRetInfoService;
     @Autowired
     private OrderInfoService orderInfoService;
+    @Autowired
+    WarehouseInfoService warehouseInfoService;
+    @Autowired
+    WhPrchsInfoService whPrchsInfoService;
 
     /**
      * 分页查询用户退货信息
@@ -59,6 +66,7 @@ public class UserRetInfoController {
         userRetInfoService.agreeUserRet(oid);
         //删除用户退货申请数据
         userRetInfoService.removeById(oid);
+
         return  R.success("同意退货");
     }
 

@@ -65,9 +65,10 @@ public class DrugProblemInfoServiceImpl extends ServiceImpl<DrugProblemInfoMappe
 
     /**
      *提交问题药品信息
+     * @param drugProblemInfo 需要提供Wid、ProblemType、PrchsNum
      */
     @Override
-    public void submitDrugProblem(DrugProblemInfo drugProblemInfo) {
+    public void submitDrugProblem(DrugProblemInfo drugProblemInfo,Boolean inSale) {
         //获取当前时间
         LocalDateTime nowTime = LocalDateTime.now();
         //初始化数据
@@ -77,11 +78,14 @@ public class DrugProblemInfoServiceImpl extends ServiceImpl<DrugProblemInfoMappe
         //同步更新到仓库的库存信息
         if(drugProblemInfo.getDpNum()<=0) throw new CustomException("问题数量必须大于0 当前输入："+drugProblemInfo.getDpNum());
         WarehouseInfo warehouseInfo = warehouseInfoService.getById(drugProblemInfo.getWid());
-        int remain=warehouseInfo.getStock()-drugProblemInfo.getDpNum();
-        if(remain<0) throw new CustomException("库存不足");
-        UpdateWrapper<WarehouseInfo> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("wid",warehouseInfo.getWid()).set("stock",remain);
-        warehouseInfoService.update(updateWrapper);
+        //更新后的库存量
+        if(!inSale){//在订单的退货信息不需要更新仓库库存
+            int remain=warehouseInfo.getStock()-drugProblemInfo.getDpNum();
+            if(remain<0) throw new CustomException("库存不足");
+            UpdateWrapper<WarehouseInfo> updateWrapper = new UpdateWrapper<>();
+            updateWrapper.eq("wid",warehouseInfo.getWid()).set("stock",remain);
+            warehouseInfoService.update(updateWrapper);
+        }
         //判断DrugProblemInfo中是否有相同的仓库记录ID和类型并且未处理
         LambdaQueryWrapper<DrugProblemInfo> dpWQ = new LambdaQueryWrapper<>();
         dpWQ.eq(DrugProblemInfo::getWid,warehouseInfo.getWid()).eq(DrugProblemInfo::getProblemType,drugProblemInfo.getProblemType()).eq(DrugProblemInfo::getHadHandle,false);

@@ -1,7 +1,9 @@
 package com.drugms.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.drugms.entity.SupplyInfo;
 import com.drugms.entity.WarehouseInfo;
+import com.drugms.entity.WhPrchsInfo;
 import com.drugms.mapper.SupplyInfoMapper;
 import com.drugms.service.DrugProblemInfoService;
 import com.drugms.service.SupplyInfoService;
@@ -20,14 +22,5 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SupplyInfoServiceImpl extends ServiceImpl<SupplyInfoMapper, SupplyInfo> implements SupplyInfoService {
-    @Autowired
-    private WarehouseInfoService warehouseInfoService;
-    @Autowired
-    DrugProblemInfoService drugProblemInfoService;
 
-    @Override
-    public void checkAndUpdExpiredDrug() {
-
-
-    }
 }

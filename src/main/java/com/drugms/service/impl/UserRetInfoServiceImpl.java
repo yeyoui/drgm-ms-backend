@@ -9,6 +9,7 @@ import com.drugms.service.DrugProblemInfoService;
 import com.drugms.service.OrderInfoService;
 import com.drugms.service.UserRetInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.drugms.service.WarehouseInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,8 @@ public class UserRetInfoServiceImpl extends ServiceImpl<UserRetInfoMapper, UserR
     private DrugProblemInfoService drugProblemInfoService;
     @Autowired
     private OrderInfoService orderInfoService;
+    @Autowired
+    private WarehouseInfoService warehouseInfoService;
 
     @Override
     public List<UserRetInfoDto> getUserRetInfoDtoPage(int type, int curPage, int limit, String name) {
@@ -71,6 +74,7 @@ public class UserRetInfoServiceImpl extends ServiceImpl<UserRetInfoMapper, UserR
 
     @Override
     public void agreeUserRet(int oid) {
+        //获取退货信息
         UserRetInfo userRetInfo = this.getById(oid);
         OrderInfo orderInfo = orderInfoService.getById(userRetInfo.getOid());
         DrugProblemInfo drugProblemInfo = new DrugProblemInfo();
@@ -78,7 +82,12 @@ public class UserRetInfoServiceImpl extends ServiceImpl<UserRetInfoMapper, UserR
         drugProblemInfo.setWid(orderInfo.getWid());
         drugProblemInfo.setProblemType(userRetInfo.getProblemType());
         drugProblemInfo.setDpNum(orderInfo.getPrchsNum());
+        //提交退货
+        drugProblemInfoService.submitDrugProblem(drugProblemInfo,true);
 
-        drugProblemInfoService.submitDrugProblem(drugProblemInfo);
+        //更新仓库退货数
+        warehouseInfoService.addRetNum(orderInfo.getWid(),orderInfo.getPrchsNum());
+        //更新仓库销售数
+        warehouseInfoService.decSaleNum(orderInfo.getWid(),orderInfo.getPrchsNum());
     }
 }

@@ -21,4 +21,9 @@ public interface WarehouseInfoService extends IService<WarehouseInfo> {
 
     List<DrugInfo> getSaleDrugList();
 
+    /**
+     * 增加退货信息
+     */
+    void addRetNum(int wid,int num);
+    void decSaleNum(int wid,int num);
 }

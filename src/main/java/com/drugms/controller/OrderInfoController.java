@@ -12,6 +12,7 @@ import com.drugms.entity.OrderInfo;
 import com.drugms.entity.WarehouseInfo;
 import com.drugms.service.OrderInfoService;
 import com.drugms.service.WarehouseInfoService;
+import com.drugms.service.WhPrchsInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,8 @@ public class OrderInfoController {
     private OrderInfoService orderInfoService;
     @Autowired
     private WarehouseInfoService warehouseInfoService;
+    @Autowired
+    private WhPrchsInfoService whPrchsInfoService;
     /**
      * 订单列表（分页）
      * @param type type=0为通过药品名查询  type=1为通过用户名查询
@@ -66,10 +69,13 @@ public class OrderInfoController {
                 //库存不足，操作失败
                 return R.error("库存不足，当前库存为:"+warehouseInfo.getStock());
             }
-            //更新
+            //更新仓库信息
             UpdateWrapper<WarehouseInfo> updateWrapper = new UpdateWrapper<>();
-            updateWrapper.eq("wid",orderInfoDto.getWid()).set("stock",warehouseInfo.getStock()-orderInfoDto.getPrchsNum());
+            updateWrapper.eq("wid",orderInfoDto.getWid()).set("stock",warehouseInfo.getStock()-orderInfoDto.getPrchsNum()).
+                    set("sell_num",warehouseInfo.getSellNum()+orderInfoDto.getPrchsNum());
             warehouseInfoService.update(updateWrapper);
+            //更新进货列表信息
+            whPrchsInfoService.decRemainByWID(warehouseInfo.getWid(),orderInfoDto.getPrchsNum());
         }
         orderInfoService.save(orderInfoDto);
         return R.success("操作成功");

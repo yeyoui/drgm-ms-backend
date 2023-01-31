@@ -27,7 +27,7 @@ public class WhPrchsInfo implements Serializable {
     /**
      * 进货批号
      */
-    @TableId(value = "prchsNo",type = IdType.AUTO)
+    @TableId(value = "prchs_no",type = IdType.AUTO)
     private Integer prchsNo;
 
     /**
@@ -46,9 +46,19 @@ public class WhPrchsInfo implements Serializable {
     private Integer splyNum;
 
     /**
+     * 剩余量
+     */
+    private Integer remain;
+
+    /**
      * 生产日期
      */
     private LocalDateTime proTime;
+
+    /**
+     * 生产日期
+     */
+    private LocalDateTime prchsTime;
 
     /**
      * 是否过期
@@ -56,3 +66,4 @@ public class WhPrchsInfo implements Serializable {
     private Boolean hadExpired;
 
 }
+

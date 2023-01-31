@@ -1,5 +1,6 @@
 package com.drugms.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.drugms.dto.WarehouseInfoDto;
 import com.drugms.entity.DrugInfo;
 import com.drugms.entity.DrugProblemInfo;
@@ -38,6 +39,22 @@ public class WarehouseInfoServiceImpl extends ServiceImpl<WarehouseInfoMapper, W
     @Override
     public List<DrugInfo> getSaleDrugList() {
         return warehouseInfoMapper.getSaleDrugList();
+    }
+
+    @Override
+    public void addRetNum(int wid, int num) {
+        WarehouseInfo warehouseInfo = this.getById(wid);
+        UpdateWrapper<WarehouseInfo> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("wid",wid).set("ret_num",warehouseInfo.getRetNum()+num);
+        this.update(updateWrapper);
+    }
+
+    @Override
+    public void decSaleNum(int wid, int num) {
+        WarehouseInfo warehouseInfo = this.getById(wid);
+        UpdateWrapper<WarehouseInfo> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("wid",wid).set("sell_num",warehouseInfo.getSellNum()-num);
+        this.update(updateWrapper);
     }
 
 

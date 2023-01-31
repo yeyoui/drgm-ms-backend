@@ -1,16 +1,18 @@
 package com.drugms.controller;
 
 
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.drugms.common.R;
+import com.drugms.dto.WarehouseRetInfoDto;
+import com.drugms.dto.WhPrchsInfoDto;
 import com.drugms.entity.WhPrchsInfo;
 import com.drugms.service.WhPrchsInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 /**
  * <p>
@@ -33,6 +35,20 @@ public class WhPrchsInfoController {
     public R<String> addWhPrchs(@RequestBody  WhPrchsInfo whPrchsInfo){
         whPrchsInfoService.addWhPrchs(whPrchsInfo);
         return R.success("更新成功");
+    }
+
+    /**
+     * 进货列表
+     */
+    @GetMapping("/page")
+    public R<Page<WhPrchsInfoDto>> page(@RequestParam(required = false,defaultValue = "-1") Integer type, Integer curPage, Integer limit, String name){
+        if(!StringUtils.isNotEmpty(name)) type=-1;
+        List<WhPrchsInfoDto> whPrchsInfoDtoList = whPrchsInfoService.getWhPrchsPage(type, curPage, limit, name);
+        Integer total = whPrchsInfoService.getWhPrchsPageCount(type, curPage, limit, name);
+        Page<WhPrchsInfoDto> page = new Page<>(curPage, limit);
+        page.setRecords(whPrchsInfoDtoList);
+        page.setTotal(total);
+        return R.success(page);
     }
 
 }

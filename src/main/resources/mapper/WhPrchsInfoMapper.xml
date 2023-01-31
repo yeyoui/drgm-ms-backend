@@ -2,4 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.drugms.mapper.WhPrchsInfoMapper">
 
+    <select id="getWhPrchsPage" resultType="com.drugms.dto.WhPrchsInfoDto">
+        SELECT prchs_no,wpi.wid,drug_name,spl_name,sply_num,remain,pro_time,prchs_time,had_expired FROM wh_prchs_info wpi LEFT JOIN drug_info di on wpi.did=di.did
+        LEFT JOIN supply_info si on di.did=si.did
+        LEFT JOIN supplier_info spi on spi.sid=si.sid
+        <if test="name!=null">
+            <choose>
+                <when test="type==0">
+                    WHERE drug_name like #{name}
+                </when>
+                <when test="type==1">
+                    WHERE spl_name like #{name}
+                </when>
+                <when test="type==2">
+                    WHERE prchs_no = #{name}
+                </when>
+            </choose>
+        </if>
+        limit #{curPage},#{limit}
+    </select>
+    <select id="getWhPrchsPageCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM wh_prchs_info wpi LEFT JOIN drug_info di on wpi.did=di.did
+        LEFT JOIN supply_info si on di.did=si.did
+        LEFT JOIN supplier_info spi on spi.sid=si.sid
+        <if test="name!=null">
+            <choose>
+                <when test="type==0">
+                    WHERE drug_name like #{name}
+                </when>
+                <when test="type==1">
+                    WHERE spl_name like #{name}
+                </when>
+                <when test="type==2">
+                    WHERE prchs_no = #{name}
+                </when>
+            </choose>
+        </if>
+    </select>
 </mapper>
