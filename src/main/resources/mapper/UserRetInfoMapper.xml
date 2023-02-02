@@ -3,7 +3,7 @@
 <mapper namespace="com.drugms.mapper.UserRetInfoMapper">
 
     <select id="getUserRetInfoDtoPage" resultType="com.drugms.dto.UserRetInfoDto">
-        SELECT uri.oid ,drug_name, problem_type,ret_time,reason  FROM user_ret_info uri
+        SELECT uri.oid ,drug_name,prchs_num, problem_type,ret_time,reason  FROM user_ret_info uri
         LEFT JOIN order_info oi on uri.oid=oi.oid
         LEFT JOIN warehouse_info wi on oi.wid=wi.wid
         LEFT JOIN drug_info di on wi.did=di.did

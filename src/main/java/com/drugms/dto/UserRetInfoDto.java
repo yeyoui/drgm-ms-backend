@@ -19,4 +19,9 @@ public class UserRetInfoDto extends UserRetInfo implements Serializable {
      * 药品名称
      */
     private String drugName;
+
+    /**
+     * 退货数量
+     */
+    private Integer prchsNum;
 }

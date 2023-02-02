@@ -1,6 +1,7 @@
 package com.drugms.controller;
 
 
+import com.drugms.common.CustomException;
 import com.drugms.common.R;
 import com.drugms.service.WarehouseInfoService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class AdminInfoController {
 
     @GetMapping("/checkAndUpdExpiredDrug")
     public R<String> checkAndUpdExpiredDrug(){
-
-        return null;
+        throw new CustomException("该功能不支持!");
+//        return null;
     }
 }

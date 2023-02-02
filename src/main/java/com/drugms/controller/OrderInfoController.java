@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.drugms.common.MSGlobalObject;
 import com.drugms.common.R;
 import com.drugms.dto.OrderInfoDto;
 import com.drugms.entity.OrderInfo;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -76,6 +78,8 @@ public class OrderInfoController {
             warehouseInfoService.update(updateWrapper);
             //更新进货列表信息
             whPrchsInfoService.decRemainByWID(warehouseInfo.getWid(),orderInfoDto.getPrchsNum());
+            //更新销售情况
+            orderInfoService.updSales(orderInfoDto.getPrchsNum(),orderInfoDto.getDid(),warehouseInfo.getWid(),true);
         }
         orderInfoService.save(orderInfoDto);
         return R.success("操作成功");
@@ -105,6 +109,9 @@ public class OrderInfoController {
             UpdateWrapper<WarehouseInfo> updateWrapper = new UpdateWrapper<>();
             updateWrapper.eq("wid",orderInfoDto.getWid()).set("stock",warehouseInfo.getStock()-diff);
             warehouseInfoService.update(updateWrapper);
+            //更新销售情况
+            orderInfoService.updSales(diff,orderInfoDto.getDid(),warehouseInfo.getWid(),false);
+
         }
         orderInfoService.updateById(orderInfoDto);
         return R.success("修改成功");

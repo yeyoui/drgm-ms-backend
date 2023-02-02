@@ -102,7 +102,6 @@ public class WhPrchsInfoServiceImpl extends ServiceImpl<WhPrchsInfoMapper, WhPrc
                 this.update(whPrchsInfoUW);
                 //提交到问题列表中
                 drugProblemInfoService.submitDrugProblem(drugProblemInfo,false);
-
             }
         }));
 

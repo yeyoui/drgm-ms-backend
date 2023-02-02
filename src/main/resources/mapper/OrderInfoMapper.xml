@@ -3,7 +3,7 @@
 <mapper namespace="com.drugms.mapper.OrderInfoMapper">
 
     <select id="getOrderDtoPage" resultType="com.drugms.dto.OrderInfoDto">
-        SELECT oid,wi.wid,drug_name,status,prchs_num,prchs_user,drug_price,create_time,address FROM order_info oi
+        SELECT oid,wi.wid,drug_name,status,prchs_num,prchs_user,di.did,goods_price as drug_price,create_time,address FROM order_info oi
         left join warehouse_info wi on oi.wid=wi.wid
         left join drug_info di on wi.did=di.did
         <if test="name!=null">
@@ -16,8 +16,7 @@
                 </when>
             </choose>
         </if>
-        ORDER BY create_time
-        limit #{curPage},#{limit}
+        ORDER BY create_time DESC limit #{curPage},#{limit};
 
     </select>
     <select id="getOrderDtoPageCount" resultType="java.lang.Integer">

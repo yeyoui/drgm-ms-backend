@@ -6,12 +6,14 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.drugms.common.CustomException;
+import com.drugms.common.MSGlobalObject;
 import com.drugms.common.R;
 import com.drugms.dto.DrugProblemInfoDto;
 import com.drugms.dto.DrugProblemType;
 import com.drugms.dto.OrderInfoDto;
 import com.drugms.entity.*;
 import com.drugms.service.*;
+import com.mysql.cj.x.protobuf.MysqlxCrud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +41,8 @@ public class DrugProblemInfoController {
     private WarehouseRetInfoService warehouseRetInfoService;
     @Autowired
     private WhPrchsInfoService whPrchsInfoService;
+    @Autowired
+    private OrderInfoService orderInfoService;
 
 
     /**
@@ -92,8 +96,6 @@ public class DrugProblemInfoController {
         UpdateWrapper<WarehouseInfo> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("wid",drugProblemInfo.getWid()).set("stock",warehouseInfo.getStock()+drugProblemInfo.getDpNum());
         warehouseInfoService.update(updateWrapper);
-
-
         return R.success("回仓成功");
     }
 

@@ -29,5 +29,10 @@ public interface OrderInfoService extends IService<OrderInfo> {
      * @param oid 修改订单状态  0：正常状态 1：未处理的退货 2： 完成回厂退货
      */
     void updOrderStatus(Integer oid,Integer status);
+    /**
+     * 更新销售情况
+     */
+    void updSales(int num,int did,int wid,Boolean modifyOrder);
 
+    void updRetSales(int num,int did,int wid);
 }

@@ -3,11 +3,13 @@ package com.drugms.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.drugms.common.CustomException;
+import com.drugms.common.MSGlobalObject;
 import com.drugms.common.R;
 import com.drugms.dto.UserRetInfoDto;
 import com.drugms.entity.DrugProblemInfo;
 import com.drugms.entity.OrderInfo;
 import com.drugms.entity.UserRetInfo;
+import com.drugms.entity.WarehouseInfo;
 import com.drugms.service.OrderInfoService;
 import com.drugms.service.UserRetInfoService;
 import com.drugms.service.WarehouseInfoService;
@@ -66,6 +68,11 @@ public class UserRetInfoController {
         userRetInfoService.agreeUserRet(oid);
         //删除用户退货申请数据
         userRetInfoService.removeById(oid);
+        //更新销售信息
+        OrderInfo orderInfo = orderInfoService.getById(oid);
+        WarehouseInfo warehouseInfo = warehouseInfoService.getById(orderInfo.getWid());
+        orderInfoService.updRetSales(orderInfo.getPrchsNum(),warehouseInfo.getDid(),orderInfo.getWid());
+        System.out.println(MSGlobalObject.dailySales);
 
         return  R.success("同意退货");
     }

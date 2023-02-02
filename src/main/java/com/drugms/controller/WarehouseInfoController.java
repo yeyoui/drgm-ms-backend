@@ -1,6 +1,7 @@
 package com.drugms.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.drugms.common.R;
@@ -13,9 +14,11 @@ import com.drugms.service.WarehouseInfoService;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -103,6 +106,17 @@ public class WarehouseInfoController {
     public R<List<DrugInfo>> getSaleDrugList(){
         List<DrugInfo> drugList = warehouseInfoService.getSaleDrugList();
         return R.success(drugList);
+    }
+
+    /**
+     * 获取某个药品的售价
+     */
+    @GetMapping("/getGoodPriceByDrugId")
+    public R<BigDecimal> getOnePrice(@RequestParam Integer did){
+        QueryWrapper<WarehouseInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("goods_price").eq("did",did);
+        WarehouseInfo warehouseInfo = warehouseInfoService.getOne(queryWrapper);
+        return R.success(warehouseInfo.getGoodsPrice());
     }
 
     @Data
