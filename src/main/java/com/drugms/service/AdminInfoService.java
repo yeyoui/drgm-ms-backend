@@ -12,5 +12,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2023-01-05
  */
 public interface AdminInfoService extends IService<AdminInfo> {
-
+    /**
+     * 验证登录
+     */
+    Integer checkLogin(String username,String password);
 }

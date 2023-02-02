@@ -12,13 +12,13 @@ spring:
     multipart:
        max-file-size: 100MB
        max-request-size: 100MB
-#  redis:
-#    host: 127.0.0.1
-#    port: 6379
-#    database: 0
-#  cache:
-#    redis:
-#      time-to-live: 1800000 #ms 30分钟
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+  cache:
+    redis:
+      time-to-live: 1800000 #ms 30分钟
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true

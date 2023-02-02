@@ -42,17 +42,17 @@ public class DailySalesController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd  HH:mm:ss");
 
         list.add(new HomeSalesDto("更新时间",MSGlobalObject.dailySales.getDay().format(formatter)
-            ,"success","#2ec7c9"));
-        list.add(new HomeSalesDto("销售金额",MSGlobalObject.dailySales.getSalesAmount().toString()
-                ,"success","#ffbc81"));
-        list.add(new HomeSalesDto("销售数",MSGlobalObject.dailySales.getSalesNum().toString()
-                ,"success","#51acee"));
-        list.add(new HomeSalesDto("订单数",MSGlobalObject.dailySales.getOrderNum().toString()
-                ,"success","#2ec7c9"));
+            ,"date","#2ec7c9"));
         list.add(new HomeSalesDto("退货数",MSGlobalObject.dailySales.getRetNum().toString()
-                ,"success","#ffbc81"));
+                ,"sold-out","#ffbc81"));
+        list.add(new HomeSalesDto("销售数",MSGlobalObject.dailySales.getSalesNum().toString()
+                ,"shopping-bag-1","#51acee"));
+        list.add(new HomeSalesDto("订单数",MSGlobalObject.dailySales.getOrderNum().toString()
+                ,"shopping-cart-1","#2ec7c9"));
+        list.add(new HomeSalesDto("销售金额",MSGlobalObject.dailySales.getSalesAmount().toString()
+                ,"coin","#ffbc81"));
         list.add(new HomeSalesDto("收入",MSGlobalObject.dailySales.getIncome().toString()
-                ,"success","#51acee"));
+                ,"money","#51acee"));
 
         return R.success(list);
     }
