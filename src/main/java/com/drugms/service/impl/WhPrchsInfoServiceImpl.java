@@ -104,7 +104,6 @@ public class WhPrchsInfoServiceImpl extends ServiceImpl<WhPrchsInfoMapper, WhPrc
                 drugProblemInfoService.submitDrugProblem(drugProblemInfo,false);
             }
         }));
-
     }
 
     @Override

@@ -45,7 +45,7 @@ public class DrugProblemInfoServiceImpl extends ServiceImpl<DrugProblemInfoMappe
         if(!" ".equals(strings[1])) problemType=Integer.parseInt(strings[1]);
         if(!" ".equals(strings[2])) handleType=Integer.parseInt(strings[2]);
 
-        return drugProblemInfoMapper.getDrugProblemInfoDtoPage(type, curPage, limit, drugName, problemType, handleType);
+        return drugProblemInfoMapper.getDrugProblemInfoDtoPage(type, curPage, limit, "%"+drugName+"%", problemType, handleType);
     }
 
     @Override
