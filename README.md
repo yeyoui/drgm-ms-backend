@@ -51,23 +51,21 @@
 
 ### 运行
 
-~~~json
-(1)	系统运行环境：
+~~~ XML
+(1)系统运行环境：
 系统运行是基于：Mysql 8.0、JDK 18.0.2、Wsl2 Ubantu 22，Redis server 6.0.16、windows 11系统，node.js 18.12.1，Vue 2.6.14
-(2)	管理员信息：
-账号：root		密码：123456
-(3)	项目管理工具：Maven
-(4)	数据库配置：
+(2)管理员信息：	账号：root	密码：123456
+(3)项目管理工具：Maven
+(4)数据库配置：
 Mysql：
-password: 123456
-username: root
-driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/drugms?serverTimezone=UTC
-	Redis:
-		host: 127.0.0.1
-    	port: 6379
-   	 	database: 0
+	password: 123456
+	username: root
+	driver-class-name: com.mysql.cj.jdbc.Driver
+	url: jdbc:mysql://localhost:3306/drugms?serverTimezone=UTC
+Redis:
+	host: 127.0.0.1
+	port: 6379
+	database: 0
 （5）运行：
 	在系统环境搭建完成后，可以使用命令运行后端服务器：java -jar drug-ms Release1.0.jar。
-
 ~~~
