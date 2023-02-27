@@ -28,4 +28,8 @@ public class RedisUtils {
     public static void addWithExpired(String key,Object object,Long timeout){
         redisTemplate.opsForValue().setIfAbsent(key,object,timeout, TimeUnit.SECONDS);
     }
+
+    public static void setWithExpired(String key,Object object,Long timeout){
+        redisTemplate.opsForValue().set(key,object,timeout, TimeUnit.SECONDS);
+    }
 }

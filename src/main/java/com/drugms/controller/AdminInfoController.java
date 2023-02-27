@@ -49,6 +49,7 @@ public class AdminInfoController {
     public R<String> login(@RequestBody LoginDto adminInfo, HttpServletRequest request, HttpServletResponse response){
 
         HttpSession session = request.getSession();
+        log.info(request.getRemoteAddr());
         String valid = (String) RedisUtils.getValue(request.getRemoteAddr());
         if(valid==null) return R.error("验证码过期");
         else if(!valid.equals(adminInfo.getVercode())) return R.error("验证码错误");
@@ -92,7 +93,8 @@ public class AdminInfoController {
         VerifyCode verifyCode = new VerifyCode();
         BufferedImage image = verifyCode.getImage();
         String text= verifyCode.getText();
-        RedisUtils.addWithExpired(req.getRemoteAddr(),text,20L);
+        log.info(req.getRemoteAddr());
+        RedisUtils.setWithExpired(req.getRemoteAddr(),text,30L);
         VerifyCode.output(image,resp.getOutputStream());
     }
 }
