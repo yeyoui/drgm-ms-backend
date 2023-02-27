@@ -16,6 +16,9 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if(request.getMethod().equalsIgnoreCase("OPTIONS")){
+            return true;//通过所有OPTION请求
+        }
         String requestURL=request.getRequestURI();
 //        log.info("preHandle Interceptor路径: "+requestURL);
         //获取到session，可以直接放行
@@ -35,6 +38,6 @@ public class LoginInterceptor implements HandlerInterceptor {
                 }
             }
         }
-        throw new CustomException("未授权的访问");
+        throw new CustomException("["+requestURL+"]未授权的访问,IP地址来自："+request.getHeader("Origin")+ " | "+request.getRemoteAddr());
     }
 }

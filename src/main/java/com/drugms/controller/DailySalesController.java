@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -59,9 +61,10 @@ public class DailySalesController {
     @GetMapping("/recentSales")
     public R<RecentSalesDto>recentSales(){
         Page<DailySales> page = new Page<>(0,7);//七天内
-//        LambdaQueryWrapper<DailySales> queryWrapper = new LambdaQueryWrapper<>();
-//        queryWrapper.orderByDesc(DailySales::getDay);
-        dailySalesService.page(page);
+        LambdaQueryWrapper<DailySales> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.orderByDesc(DailySales::getDay);
+        dailySalesService.page(page,queryWrapper);
+        Collections.reverse( page.getRecords());
         //封装数据
         RecentSalesDto dto = new RecentSalesDto();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy-MM-dd");

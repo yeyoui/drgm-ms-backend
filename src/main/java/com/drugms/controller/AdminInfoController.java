@@ -93,7 +93,7 @@ public class AdminInfoController {
         VerifyCode verifyCode = new VerifyCode();
         BufferedImage image = verifyCode.getImage();
         String text= verifyCode.getText();
-//        log.info(req.getRemoteAddr());
+        log.info(req.getRemoteAddr());
         RedisUtils.setWithExpired(req.getRemoteAddr(),text,30L);
         VerifyCode.output(image,resp.getOutputStream());
     }

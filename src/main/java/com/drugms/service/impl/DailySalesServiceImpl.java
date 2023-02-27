@@ -8,6 +8,7 @@ import com.drugms.mapper.DailySalesMapper;
 import com.drugms.service.DailySalesService;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,10 +26,12 @@ public class DailySalesServiceImpl extends ServiceImpl<DailySalesMapper, DailySa
     @Override
     public LinkedList<LinkedList<String>>  getRecentSales() {
         Page<DailySales> page = new Page<>(0, 7);
-        this.page(page);
+        LambdaQueryWrapper<DailySales> wrapper = new LambdaQueryWrapper<>();
+        wrapper.orderByDesc(DailySales::getDay);
+        this.page(page,wrapper);
         List<DailySales> records = page.getRecords();
         LinkedList<LinkedList<String>> AllTypeLinkedLists = new LinkedList<>();
-
+        Collections.reverse(records);
         //销售金额
         LinkedList<String> list0 = new LinkedList<>();
         records.forEach((item)->{
