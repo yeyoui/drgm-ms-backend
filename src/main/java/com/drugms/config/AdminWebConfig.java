@@ -18,6 +18,8 @@ public class AdminWebConfig implements WebMvcConfigurer {
         registry.addInterceptor(interceptor())
                 .addPathPatterns("/**")
                 .excludePathPatterns("/admin/login")
+                .excludePathPatterns("/admin/vercode")
+                .excludePathPatterns("/error")
                 .excludePathPatterns("/admin/register");
     }
 }
